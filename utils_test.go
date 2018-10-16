@@ -31,7 +31,7 @@ func encodeDecode(m *Test, t *testing.T) map[string]interface{} {
 		t.Fatal(err)
 	}
 	defs := NewDefinitions()
-	defs.AddFromFile("test.proto")
+	defs.ReadFile("test.proto")
 
 	dec := NewDecoder(defs, proto.NewBuffer(data))
 	// dec.verbose = true

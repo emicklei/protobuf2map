@@ -4,7 +4,7 @@ import "testing"
 
 func TestAddFromFile(t *testing.T) {
 	d := NewDefinitions()
-	d.AddFromFile("test.proto")
+	d.ReadFile("test.proto")
 	if got, want := len(d.filenamesRead), 1; got != want {
 		t.Errorf("got %v want %v", got, want)
 	}

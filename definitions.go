@@ -3,7 +3,9 @@ package protobuf2map
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"os"
 
 	pp "github.com/emicklei/proto"
 )
@@ -23,18 +25,28 @@ func NewDefinitions() *Definitions {
 }
 
 // Read the proto definition from a filename.
-// Recursively add all imports
-func (d *Definitions) AddFromFile(filename string) error {
+func (d *Definitions) ReadFile(filename string) error {
+	fileReader, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer fileReader.Close()
+	return d.ReadFrom(filename, fileReader)
+}
+
+// Read the proto definition from a Reader
+// TODO: Recursively add all imports
+func (d *Definitions) ReadFrom(filename string, reader io.Reader) error {
 	for _, each := range d.filenamesRead {
 		if each == filename {
 			return nil
 		}
 	}
-	d.filenamesRead = append(d.filenamesRead, filename)
-	data, err := ioutil.ReadFile(filename)
+	data, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return err
 	}
+	d.filenamesRead = append(d.filenamesRead, filename)
 	parser := pp.NewParser(bytes.NewReader(data))
 	def, err := parser.Parse()
 	if err != nil {

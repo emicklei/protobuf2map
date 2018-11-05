@@ -31,7 +31,7 @@ type decoder struct {
 func (d *decoder) Decode(pkg, t string) (map[string]interface{}, error) {
 	m, ok := d.d.Message(pkg, t)
 	if !ok {
-		return nil, fmt.Errorf("no definition found for %s %s", pkg, t)
+		return nil, fmt.Errorf("no definition found for package [%s] type [%s]", pkg, t)
 	}
 	d.p = pkg
 	d.m = m

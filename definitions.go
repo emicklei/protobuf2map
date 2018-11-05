@@ -6,21 +6,24 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	pp "github.com/emicklei/proto"
 )
 
 type Definitions struct {
-	messages      map[string]*pp.Message
-	enums         map[string]*pp.Enum
-	filenamesRead []string
+	messages          map[string]*pp.Message
+	enums             map[string]*pp.Enum
+	filenamesRead     []string
+	filenameToPackage map[string]string
 }
 
 func NewDefinitions() *Definitions {
 	return &Definitions{
-		messages:      map[string]*pp.Message{},
-		enums:         map[string]*pp.Enum{},
-		filenamesRead: []string{},
+		messages:          map[string]*pp.Message{},
+		enums:             map[string]*pp.Enum{},
+		filenamesRead:     []string{},
+		filenameToPackage: map[string]string{},
 	}
 }
 
@@ -53,6 +56,7 @@ func (d *Definitions) ReadFrom(filename string, reader io.Reader) error {
 		return err
 	}
 	pkg := packageOf(def)
+	d.filenameToPackage[filename] = pkg
 	pp.Walk(def, pp.WithMessage(func(each *pp.Message) {
 		d.AddMessage(pkg, each.Name, each)
 	}))
@@ -60,6 +64,21 @@ func (d *Definitions) ReadFrom(filename string, reader io.Reader) error {
 		d.AddEnum(pkg, each.Name, each)
 	}))
 	return nil
+}
+
+// Returns the proto package name as declared in the proto filename.
+func (d *Definitions) Package(filename string) (pkg string, ok bool) {
+	pkg, ok = d.filenameToPackage[filename]
+	return
+}
+
+func (d *Definitions) MessagesInPackage(pkg string) (list []*pp.Message) {
+	for k, v := range d.messages {
+		if strings.HasPrefix(k, pkg+".") {
+			list = append(list, v)
+		}
+	}
+	return
 }
 
 func (d *Definitions) Message(pkg string, name string) (m *pp.Message, ok bool) {

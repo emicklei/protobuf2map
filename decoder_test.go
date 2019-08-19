@@ -9,7 +9,7 @@ func TestInt32(t *testing.T) {
 		FieldInt32: 42,
 	}
 	result := encodeDecode(m, t)
-	if got, want := result["field_int32"], uint64(42); got != want {
+	if got, want := result["field_int32"], int32(42); got != want {
 		t.Errorf("got %v (%T) %v (%T)", got, got, want, want)
 	}
 }
@@ -34,6 +34,16 @@ func TestInt64(t *testing.T) {
 	}
 	result := encodeDecode(m, t)
 	if got, want := result["field_int64"], uint64(42); got != want {
+		t.Errorf("got %v (%T) %v (%T)", got, got, want, want)
+	}
+}
+
+func TestUint64(t *testing.T) {
+	m := &Test{
+		FieldUint64: uint64(42),
+	}
+	result := encodeDecode(m, t)
+	if got, want := result["field_uint64"], uint64(42); got != want {
 		t.Errorf("got %v (%T) %v (%T)", got, got, want, want)
 	}
 }
@@ -163,7 +173,7 @@ func TestMapStringInt32(t *testing.T) {
 	}
 	result := encodeDecode(m, t)
 	field := result["field_map_string_int32"].(map[string]interface{})
-	if got, want := field["hello"], uint64(1); got != want {
+	if got, want := field["hello"], int32(1); got != want {
 		fail(t, got, want)
 	}
 }

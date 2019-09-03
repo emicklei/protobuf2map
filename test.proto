@@ -11,6 +11,9 @@ message Test{
     float field_float = 4;
     bool field_bool = 5;
 
+    // unsigned
+    uint64 field_uint64 = 6;
+
     // repeated
     repeated int32 field_int32s = 31;
     repeated string field_strings = 32;

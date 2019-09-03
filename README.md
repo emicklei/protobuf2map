@@ -19,3 +19,7 @@ This package was created to transform such messages directly to JSON without usi
 		log.Printf("%#v",result)
 	}
 	
+
+## how to compile the test
+
+	protoc --go_out=. *.proto && mv test.pb.go test_pb_test.go

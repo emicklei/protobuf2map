@@ -86,6 +86,9 @@ func (d *decoder) decodeNormalField(f *pp.NormalField, wire uint64) error {
 	if "int64" == f.Type {
 		return d.handleInt64(f.Name, f.Repeated)
 	}
+	if "uint64" == f.Type {
+		return d.handleInt64(f.Name, f.Repeated)
+	}
 	if "int32" == f.Type {
 		return d.handleInt32(f.Name, f.Repeated)
 	}
@@ -315,7 +318,7 @@ func (d *decoder) handleInt32(n string, repeated bool) error {
 		}
 		return fmt.Errorf("cannot decode %s:int32:%v", n, err)
 	}
-	d.add(n, x, !repeatedField, !mapField)
+	d.add(n, int32(x), !repeatedField, !mapField)
 	return nil
 }
 

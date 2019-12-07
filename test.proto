@@ -13,6 +13,7 @@ message Test{
 
     // unsigned
     uint64 field_uint64 = 6;
+    uint32 field_uint32 = 7;
 
     // repeated
     repeated int32 field_int32s = 31;

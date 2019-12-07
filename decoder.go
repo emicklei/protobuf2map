@@ -90,7 +90,10 @@ func (d *decoder) decodeNormalField(f *pp.NormalField, wire uint64) error {
 		return d.handleInt64(f.Name, f.Repeated)
 	}
 	if "int32" == f.Type {
-		return d.handleInt32(f.Name, f.Repeated)
+		return d.handleInt32(f.Name, f.Repeated, false)
+	}
+	if "uint32" == f.Type {
+		return d.handleInt32(f.Name, f.Repeated, true)
 	}
 	if "float" == f.Type {
 		return d.handleFloat(f.Name, f.Repeated)
@@ -294,7 +297,7 @@ func (d *decoder) handleInt64(n string, repeated bool) error {
 	return nil
 }
 
-func (d *decoder) handleInt32(n string, repeated bool) error {
+func (d *decoder) handleInt32(n string, repeated bool, isUnsigned bool) error {
 	if repeated {
 		data, err := d.b.DecodeRawBytes(true)
 		if err != nil {
@@ -318,7 +321,12 @@ func (d *decoder) handleInt32(n string, repeated bool) error {
 		}
 		return fmt.Errorf("cannot decode %s:int32:%v", n, err)
 	}
-	d.add(n, int32(x), !repeatedField, !mapField)
+
+	if isUnsigned {
+		d.add(n, uint32(x), !repeatedField, !mapField)
+	} else {
+		d.add(n, int32(x), !repeatedField, !mapField)
+	}
 	return nil
 }
 

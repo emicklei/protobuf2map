@@ -178,6 +178,16 @@ func TestMapStringInt32(t *testing.T) {
 	}
 }
 
+func TestUint32(t *testing.T) {
+	m := &Test{
+		FieldUint32: uint32(42),
+	}
+	result := encodeDecode(m, t)
+	if got, want := result["field_uint32"], uint32(42); got != want {
+		t.Errorf("got %v (%T) %v (%T)", got, got, want, want)
+	}
+}
+
 func TestMapInt64Foo(t *testing.T) {
 	m := &Test{
 		FieldMapInt64_Foo: map[int64]*Foo{

@@ -28,6 +28,8 @@ type decoder struct {
 	verbose bool
 }
 
+func (d *decoder) Verbose(v bool) { d.verbose = v }
+
 func (d *decoder) Decode(pkg, t string) (map[string]interface{}, error) {
 	m, ok := d.d.Message(pkg, t)
 	if !ok {

@@ -2,10 +2,12 @@ package protobuf2map
 
 import (
 	"testing"
+
+	"github.com/emicklei/protobuf2map/testmsg"
 )
 
 func TestInt32(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldInt32: 42,
 	}
 	result := encodeDecode(m, t)
@@ -15,7 +17,7 @@ func TestInt32(t *testing.T) {
 }
 
 func TestRepeatedInt32(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldInt32S: []int32{1, 2, 3, 4},
 	}
 	result := encodeDecode(m, t)
@@ -29,7 +31,7 @@ func TestRepeatedInt32(t *testing.T) {
 }
 
 func TestInt64(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldInt64: 42,
 	}
 	result := encodeDecode(m, t)
@@ -39,7 +41,7 @@ func TestInt64(t *testing.T) {
 }
 
 func TestUint64(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldUint64: uint64(42),
 	}
 	result := encodeDecode(m, t)
@@ -49,7 +51,7 @@ func TestUint64(t *testing.T) {
 }
 
 func TestRepeatedInt64(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldInt64S: []int64{1, 2, 3, 4},
 	}
 	result := encodeDecode(m, t)
@@ -63,7 +65,7 @@ func TestRepeatedInt64(t *testing.T) {
 }
 
 func TestFloat(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldFloat: 3.14,
 	}
 	result := encodeDecode(m, t)
@@ -73,7 +75,7 @@ func TestFloat(t *testing.T) {
 }
 
 func TestRepeatedFloat(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldFloats: []float32{3.14, 0.234},
 	}
 	result := encodeDecode(m, t)
@@ -87,7 +89,7 @@ func TestRepeatedFloat(t *testing.T) {
 }
 
 func TestString(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldString: "hello",
 	}
 	result := encodeDecode(m, t)
@@ -97,7 +99,7 @@ func TestString(t *testing.T) {
 }
 
 func TestRepeatedString(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldStrings: []string{"hello", "world"},
 	}
 	result := encodeDecode(m, t)
@@ -112,7 +114,7 @@ func TestRepeatedString(t *testing.T) {
 
 func TestBool(t *testing.T) {
 	// false value is not written TODO
-	m := &Test{
+	m := &testmsg.Test{
 		FieldBool: true,
 	}
 	result := encodeDecode(m, t)
@@ -122,7 +124,7 @@ func TestBool(t *testing.T) {
 }
 
 func TestRepeatedBool(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldBools: []bool{true, false},
 	}
 	result := encodeDecode(m, t)
@@ -136,8 +138,8 @@ func TestRepeatedBool(t *testing.T) {
 }
 
 func TestFoo(t *testing.T) {
-	m := &Test{
-		FieldFoo: &Foo{Foo: "foo"},
+	m := &testmsg.Test{
+		FieldFoo: &testmsg.Foo{Foo: "foo"},
 	}
 	result := encodeDecode(m, t)
 	foo := result["field_foo"].(map[string]interface{})
@@ -150,8 +152,8 @@ func TestFoo(t *testing.T) {
 }
 
 func TestRepeatedFoo(t *testing.T) {
-	m := &Test{
-		FieldFoos: []*Foo{&Foo{Foo: "foo1"}, &Foo{Foo: "foo2"}},
+	m := &testmsg.Test{
+		FieldFoos: []*testmsg.Foo{&testmsg.Foo{Foo: "foo1"}, &testmsg.Foo{Foo: "foo2"}},
 	}
 	result := encodeDecode(m, t)
 	foos := result["field_foos"].([]interface{})
@@ -165,7 +167,7 @@ func TestRepeatedFoo(t *testing.T) {
 }
 
 func TestMapStringInt32(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldMapStringInt32: map[string]int32{
 			"hello": 1,
 			"world": 2,
@@ -179,7 +181,7 @@ func TestMapStringInt32(t *testing.T) {
 }
 
 func TestUint32(t *testing.T) {
-	m := &Test{
+	m := &testmsg.Test{
 		FieldUint32: uint32(42),
 	}
 	result := encodeDecode(m, t)
@@ -189,10 +191,10 @@ func TestUint32(t *testing.T) {
 }
 
 func TestMapInt64Foo(t *testing.T) {
-	m := &Test{
-		FieldMapInt64_Foo: map[int64]*Foo{
-			1: &Foo{Foo: "foo1"},
-			2: &Foo{Foo: "foo2"},
+	m := &testmsg.Test{
+		FieldMapInt64_Foo: map[int64]*testmsg.Foo{
+			1: &testmsg.Foo{Foo: "foo1"},
+			2: &testmsg.Foo{Foo: "foo2"},
 		},
 	}
 	result := encodeDecode(m, t)
@@ -205,8 +207,8 @@ func TestMapInt64Foo(t *testing.T) {
 }
 
 func TestEnum(t *testing.T) {
-	m := &Test{
-		FieldEnum: Things_JOKE,
+	m := &testmsg.Test{
+		FieldEnum: testmsg.Things_JOKE,
 	}
 	result := encodeDecode(m, t)
 	dump(result)

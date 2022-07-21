@@ -22,4 +22,4 @@ This package was created to transform such messages directly to JSON without usi
 
 ## how to compile the test
 
-	protoc --go_out=. *.proto && mv test.pb.go test_pb_test.go
+	protoc --go_out=. *.proto

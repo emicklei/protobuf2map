@@ -8,7 +8,7 @@ func TestAddFromFile(t *testing.T) {
 	if got, want := len(d.filenamesRead), 1; got != want {
 		t.Errorf("got %v want %v", got, want)
 	}
-	m, ok := d.Message("protobuf2map", "Test")
+	m, ok := d.Message("testmsg", "Test")
 	if !ok {
 		t.Fail()
 	}

@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package protobuf2map;
+package testmsg;
 
-// protoc --go_out=. test.proto && mv test.pb.go test_pb_test.go
-
+option go_package = "/testmsg";
+ 
 message Test{
     int32 field_int32 = 1;
     string field_string = 2;

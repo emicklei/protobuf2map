@@ -8,6 +8,8 @@ import (
 	"testing"
 
 	proto "github.com/golang/protobuf/proto"
+
+	"github.com/emicklei/protobuf2map/testmsg"
 )
 
 func fail(t *testing.T, got, want interface{}) {
@@ -24,7 +26,7 @@ func dump(what interface{}) {
 	}
 }
 
-func encodeDecode(m *Test, t *testing.T) map[string]interface{} {
+func encodeDecode(m *testmsg.Test, t *testing.T) map[string]interface{} {
 	t.Helper()
 	data, err := proto.Marshal(m)
 	if err != nil {
@@ -35,7 +37,7 @@ func encodeDecode(m *Test, t *testing.T) map[string]interface{} {
 
 	dec := NewDecoder(defs, proto.NewBuffer(data))
 	// dec.verbose = true
-	result, err := dec.Decode("protobuf2map", "Test")
+	result, err := dec.Decode("testmsg", "Test")
 	if err != nil && err != ErrEndOfMessage {
 		t.Fatal(err)
 	}
